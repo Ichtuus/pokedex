@@ -24,17 +24,6 @@ const config = {
         // }
       },
       {
-        test: /\.ts$/,
-        include: [path.resolve(__dirname, "src")],
-        exclude: [/node_modules/],
-        use: ["babel-loader", "ts-loader"],
-      },
-      {
-        test: /\.html$/i,
-        loader: "html-loader",
-        exclude: /node_modules/,
-      },
-      {
         test: /\.css$/i,
         use: ["style-loader", "css-loader"],
         exclude: /node_modules/,
@@ -48,6 +37,18 @@ const config = {
           },
           "sass-loader?sourceMap",
         ],
+      },
+      {
+        test: /\.html$/i,
+        loader: "html-loader",
+        exclude: /node_modules/,
+      },
+
+      {
+        test: /\.ts$/,
+        include: [path.resolve(__dirname, "src")],
+        exclude: [/node_modules/],
+        use: ["babel-loader", "ts-loader"],
       },
     ],
   },

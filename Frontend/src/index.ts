@@ -4,9 +4,7 @@ import "core-js/stable";
 import "regenerator-runtime/runtime";
 
 // LINK global style
-import "./style/index.scss";
 import "./style/global.css";
-// import 'croppr/src/css/croppr.css'
 
 import { wrap } from "./core/component";
 import observedAttributesHelloworld from "./utils";
@@ -22,7 +20,7 @@ customElements.define(
 
 const App = async () => {
   const template = `
-    <main class="gradient">
+    <main>
       <hello-world></hello-world>
     </main>  
   `;
