@@ -4,7 +4,9 @@ import "core-js/stable";
 import "regenerator-runtime/runtime";
 
 // LINK global style
-import "./style/global.css";
+// import "./style/_global.module.css";
+
+// import "./components/_pokedex.module.scss"
 
 import { wrap } from "./core/component";
 import observedAttributesHelloworld from "./utils";

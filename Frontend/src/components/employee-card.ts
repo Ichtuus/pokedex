@@ -1,12 +1,7 @@
 import html from "./employee.html";
-import style from "./pokedex.scss";
-
+import style from "./_pokedex.module.scss";
 import { IWebComponent } from "@/type/index";
 import { Component } from "./../core/decorator";
-
-const styleGreen = document.createElement("style");
-styleGreen.type = "text/css";
-styleGreen.appendChild(document.createTextNode(style));
 
 @Component({
   html: html,

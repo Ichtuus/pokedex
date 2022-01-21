@@ -23,21 +23,32 @@ const config = {
         //   name: '/public/icons/[name].[ext]'
         // }
       },
+
       {
-        test: /\.css$/i,
+        test: /\.(js|ts)$/,
+        exclude: /node_modules/,
+        use: ["babel-loader"],
+      },
+
+      {
+        test: /\.css$/,
         use: ["style-loader", "css-loader"],
         exclude: /node_modules/,
       },
+
       {
         test: /\.scss$/,
         use: [
-          "style-loader",
+          "raw-loader",
           {
-            loader: "css-loader",
+            loader: "sass-loader",
+            options: {
+              includePaths: [path.resolve(__dirname, "node_modules")],
+            },
           },
-          "sass-loader?sourceMap",
         ],
       },
+
       {
         test: /\.html$/i,
         loader: "html-loader",
@@ -62,7 +73,6 @@ if (NODE_ENV === "DEVELOPMENT") {
     historyApiFallback: true,
     hot: true,
     inline: true,
-    open: true,
     overlay: true,
     clientLogLevel: "warning",
     quiet: true,
