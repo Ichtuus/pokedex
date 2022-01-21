@@ -1,97 +1,103 @@
-import { IWebComponent } from '@/type/index';
+import { IWebComponent } from "@/type/index";
 
 interface IWebComponentDecorated extends IWebComponent {
-	srcHtml: string,
-	srcStyle: string
+  srcHtml: string;
+  srcStyle: string;
 }
 
 interface OriginalComponentClassType {
-	observedAttributes: Array<string>;
-	new(...args: any[]): IWebComponentDecorated
+  observedAttributes: Array<string>;
+  new (...args: any[]): IWebComponentDecorated;
 }
 
-export const wrap = (importFn: () => Promise<any>, className: string, observedAttributes: Array<string>) => {
+export const wrap = (
+  importFn: () => Promise<any>,
+  className: string,
+  observedAttributes: Array<string>
+) => {
+  class CustomComponent extends HTMLElement {
+    private _originalComp!: IWebComponentDecorated;
+    private _connected = false;
+    private _originalConstruct!: OriginalComponentClassType;
+    private _changedAttributes = false;
+    private _changedName = "";
+    private _changedOldValue = "";
+    private _changedNewValue = "";
+    // private _props: any = {};
 
-	class CustomComponent extends HTMLElement {
+    static originalObservedAttributes: any;
 
-		private _originalComp!: IWebComponentDecorated;
-		private _connected = false;
-		private _originalConstruct!: OriginalComponentClassType;
-		private _changedAttributes = false;
-		private _changedName = '';
-		private _changedOldValue = '';
-		private _changedNewValue = '';
-		// private _props: any = {};
+    static get observedAttributes(): Array<string> {
+      return observedAttributes;
+    }
 
-		static originalObservedAttributes: any;
+    constructor() {
+      super();
 
-		static get observedAttributes(): Array<string> {
-			return observedAttributes;
-		}
+      const shadow = this.attachShadow({ mode: "open" });
 
-		constructor() {
-			super();
+      importFn().then((m) => {
+        this._originalConstruct = m[className];
+        this._originalComp = new this._originalConstruct(shadow, shadow.host);
+        this._originalConstruct.prototype?.properties?.forEach(
+          (prop: string) => {
+            Object.defineProperty(this, prop, {
+              get: () => {
+                return (this._originalComp as any)[prop];
+              },
+              set: (val) => {
+                (this._originalComp as any)[prop] = val;
+              },
+            });
+          }
+        );
 
-			const shadow = this.attachShadow({ mode: 'open' });
+        shadow.innerHTML = this._originalComp?.srcHtml;
+        const firstChild = shadow.firstChild;
 
-			importFn().then((m) => {
-				this._originalConstruct = m[className];
-				this._originalComp = new this._originalConstruct(shadow, shadow.host);
-				this._originalConstruct.prototype?.properties?.forEach((prop: string) => {
-					Object.defineProperty(this, prop, {
-						get: () => {
-							return (this._originalComp as any)[prop];
-						},
-						set: (val) => {
-							(this._originalComp as any)[prop] = val;
-						},
-					});
-				});
+        const styleTag = document.createElement("style");
+        styleTag.innerHTML = this._originalComp?.srcStyle;
 
-				shadow.innerHTML = this._originalComp!.srcHtml;
-				const firstChild = shadow.firstChild;
+        shadow.insertBefore(styleTag, firstChild);
 
-				const styleTag = document.createElement('style');
-				styleTag.innerHTML = this._originalComp?.srcStyle;
+        if (this._connected) {
+          this._originalComp.connectedCallback();
+          if (this._changedAttributes) {
+            this._originalComp?.attributeChangedCallback(
+              this._changedName,
+              this._changedOldValue,
+              this._changedNewValue
+            );
+          }
+        }
 
-				shadow.insertBefore(styleTag, firstChild);
+        this.dispatchEvent(new Event("ready"));
+      });
+    }
 
-				if (this._connected) {
-					this._originalComp.connectedCallback();
-					if (this._changedAttributes) {
-						this._originalComp?.attributeChangedCallback(this._changedName, this._changedOldValue, this._changedNewValue);
-					}
-				}
+    connectedCallback() {
+      this._connected = true;
+    }
 
-				this.dispatchEvent(new Event('ready'));
+    disconnectedCallback() {
+      this._originalComp?.disconnectedCallback();
+    }
 
-			});
-		}
+    adoptedCallback() {
+      this._originalComp?.adoptedCallback();
+    }
 
-		connectedCallback() {
-			this._connected = true;
-		}
+    attributeChangedCallback(name: string, oldValue: any, newValue: any) {
+      if (!this._changedAttributes) {
+        this._changedAttributes = true;
+        this._changedName = name;
+        this._changedOldValue = oldValue;
+        this._changedNewValue = newValue;
+      } else {
+        this._originalComp?.attributeChangedCallback(name, oldValue, newValue);
+      }
+    }
+  }
 
-		disconnectedCallback() {
-			this._originalComp?.disconnectedCallback();
-		}
-
-		adoptedCallback() {
-			this._originalComp?.adoptedCallback();
-		}
-
-		attributeChangedCallback(name: string, oldValue: any, newValue: any) {
-			if (!this._changedAttributes) {
-				this._changedAttributes = true;
-				this._changedName = name;
-				this._changedOldValue = oldValue;
-				this._changedNewValue = newValue;
-			} else {
-				this._originalComp?.attributeChangedCallback(name, oldValue, newValue);
-			}
-		}
-	}
-
-	return CustomComponent;
+  return CustomComponent;
 };
-
