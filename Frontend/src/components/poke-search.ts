@@ -1,14 +1,14 @@
-import html from "./employee.html";
-import style from "./_pokedex.module.scss";
+import html from "./poke-search.html";
+import style from "./_poke-search.module.scss";
 import { IWebComponent } from "@/type/index";
-import { Component } from "./../core/decorator";
+import { Component } from "../core/decorator";
 
 @Component({
   html: html,
   style: style,
   properties: ["prop"],
 })
-export class EmployeeCard implements IWebComponent {
+export class PokeSearch implements IWebComponent {
   get prop() {
     console.log("prop read");
     return "";
