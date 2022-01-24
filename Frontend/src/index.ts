@@ -7,14 +7,14 @@ import "regenerator-runtime/runtime";
 import "./style/_global.module.css";
 
 import { wrap } from "./core/component";
-import observedAttributesPokeSearch from "./utils";
+import observedAttributes from "./utils";
 
 customElements.define(
   "poke-search",
   wrap(
-    () => import("./components/poke-search"),
+    () => import("./components/poke-search/poke-search"),
     "PokeSearch",
-    observedAttributesPokeSearch
+    observedAttributes
   )
 );
 

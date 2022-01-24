@@ -8,7 +8,8 @@
   "scripts": {
     "dev": "NODE_ENV=DEVELOPMENT webpack-dev-server",
     "build": "rm -rf dist && NODE_ENV=PRODUCTION webpack --progress",
-    "test": "jest"
+    "test": "jest",
+    "new-component": "./scripts/newComponent.js"
   },
   "author": "Nicolas Diarra",
   "dependencies": {
@@ -26,6 +27,7 @@
     "css-loader": "^5.0.2",
     "fetch-intercept": "^2.4.0",
     "file-loader": "^6.2.0",
+    "fs-extra": "^10.0.0",
     "html-loader": "^1.3.2",
     "html-webpack-inline-source-plugin": "0.0.10",
     "html-webpack-plugin": "^4.5.0",
