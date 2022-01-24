@@ -1,7 +1,7 @@
 import html from "./poke-search.html";
 import style from "./_poke-search.module.scss";
 import { IWebComponent } from "@/type/index";
-import { Component } from "../core/decorator";
+import { Component } from "../../core/decorator";
 
 @Component({
   html: html,
