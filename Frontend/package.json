@@ -10,7 +10,8 @@
     "build": "rm -rf dist && NODE_ENV=PRODUCTION webpack --progress",
     "test": "jest",
     "new-component": "./src/core/scripts/newComponent.js",
-    "new-poketype": "./src/core/scripts/fileCreator.js"
+    "new-poketype": "./src/core/scripts/fileCreator.js",
+    "lint": "eslint . --ext .ts"
   },
   "author": "Nicolas Diarra",
   "dependencies": {
@@ -25,8 +26,12 @@
     "@babel/runtime-corejs3": "^7.14.9",
     "@types/jest": "^26.0.24",
     "@types/node": "^17.0.14",
+    "@typescript-eslint/eslint-plugin": "^5.10.2",
+    "@typescript-eslint/parser": "^5.10.2",
     "babel-loader": "^8.1.0",
     "css-loader": "^5.0.2",
+    "eslint": "^7.7.0",
+    "eslint-webpack-plugin": "^3.1.1",
     "fetch-intercept": "^2.4.0",
     "file-loader": "^6.2.0",
     "fs-extra": "^10.0.0",

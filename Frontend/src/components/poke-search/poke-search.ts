@@ -3,6 +3,8 @@ import style from "./_poke-search.module.scss";
 import { IWebComponent } from "@/type/index";
 import { Component } from "../../core/decorator";
 
+import pokemonApi from "../../api/pokemon/index";
+
 @Component({
   html: html,
   style: style,
@@ -26,8 +28,12 @@ export class PokeSearch implements IWebComponent {
    */
   connectedCallback() {
     console.log("hello-world2 connected ");
-    let textContainer = this.$el.querySelector(".show-clicked-btn");
+    const textContainer = this.$el.querySelector(".show-clicked-btn");
 
+    this.$el.querySelector("#test")?.addEventListener("click", () => {
+      console.log("call api");
+      pokemonApi.getPokemon("https://pokeapi.co/api/v2/pokemon/1");
+    });
     this.$el.querySelector(".btn-to-click")?.addEventListener("click", () => {
       if (textContainer) {
         textContainer.innerHTML = "clicked!!";
