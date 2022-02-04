@@ -18,7 +18,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+    "types": ["@types/jest", "@types/node"]
   },
   "exclude": ["dist", "node_modules"],
   "include": ["**/*.ts"]
