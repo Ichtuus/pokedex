@@ -4,6 +4,9 @@ import { IWebComponent } from "@/type/index";
 import { Component } from "../../core/decorator";
 
 import pokemonApi from "../../api/pokemon/index";
+import cache from "../../api/pokemon/cache";
+import { PokeApiUrls } from "../../api/pokemon/urls";
+import { Pokemon } from "../../types/pokeapi";
 
 @Component({
   html: html,
@@ -28,17 +31,58 @@ export class PokeSearch implements IWebComponent {
    */
   connectedCallback() {
     console.log("hello-world2 connected ");
-    const textContainer = this.$el.querySelector(".show-clicked-btn");
+    // this.$el.querySelector("#test")?.addEventListener("click", () => {
+    //   console.log("call api");
+    //   pokemonApi.getPokemon("https://pokeapi.co/api/v2/pokemon?limit=1118&offset=20");
+    // });
 
-    this.$el.querySelector("#test")?.addEventListener("click", () => {
-      console.log("call api");
-      pokemonApi.getPokemon("https://pokeapi.co/api/v2/pokemon/1");
-    });
-    this.$el.querySelector(".btn-to-click")?.addEventListener("click", () => {
-      if (textContainer) {
-        textContainer.innerHTML = "clicked!!";
+    // let search = "";
+    this.searchPokemon();
+    // this.$el.querySelector(".search-field")?.addEventListener("input", () => {
+    //   search = (<HTMLInputElement>text).value;
+    //   console.log(search);
+    //   this.searchPokemon(search);
+    // });
+  }
+
+  searchPokemon() {
+    let existingCache!: Pokemon;
+    cache.getCacheIfExist(PokeApiUrls.ALL_POKEMON, "pokemon").then((cache) => {
+      if (cache) {
+        existingCache = cache;
       }
     });
+
+    this.$el
+      .querySelector(".search-submit")
+      ?.addEventListener("click", async () => {
+        let currentResearch = (<HTMLInputElement>(
+          this.$el.querySelector(".search-field")
+        )).value;
+
+        console.log(currentResearch);
+
+        let neededPokemon = [];
+
+        if (existingCache) {
+          neededPokemon = existingCache.results.filter(
+            (pokemon) => pokemon.name == currentResearch
+          );
+        } else {
+          const data = await pokemonApi.getPokemon();
+
+          neededPokemon = data.results.filter(
+            (pokemon) => pokemon.name == currentResearch
+          );
+        }
+
+        const pokemon = await pokemonApi.getPokemonSpecies(
+          neededPokemon[0].name
+        );
+
+        cache.createCache(PokeApiUrls.ALL_POKEMON, "pokemon");
+        console.log("pokemon", pokemon);
+      });
   }
 
   /**
