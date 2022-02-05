@@ -1,6 +1,6 @@
 async function getCacheIfExist(url: string, name: string) {
   if (await caches.has(name)) {
-    console.info("Cache exist for this url: ", url);
+    console.info("Cache exist for this name: ", name, "Resolved in url: ", url);
   } else {
     return;
   }

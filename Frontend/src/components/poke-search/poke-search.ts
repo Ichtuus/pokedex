@@ -65,15 +65,13 @@ export class PokeSearch implements IWebComponent {
         let neededPokemon = [];
 
         if (existingCache) {
-          neededPokemon = existingCache.results.filter(
-            (pokemon) => pokemon.name == currentResearch
+          neededPokemon = this.getCurrentResearch(
+            existingCache,
+            currentResearch
           );
         } else {
-          const data = await pokemonApi.getPokemon();
-
-          neededPokemon = data.results.filter(
-            (pokemon) => pokemon.name == currentResearch
-          );
+          const response = await pokemonApi.getPokemon();
+          neededPokemon = this.getCurrentResearch(response, currentResearch);
         }
 
         const pokemon = await pokemonApi.getPokemonSpecies(
@@ -85,6 +83,9 @@ export class PokeSearch implements IWebComponent {
       });
   }
 
+  getCurrentResearch(existing: any, current: any) {
+    return existing.results.filter((pokemon: any) => pokemon.name == current);
+  }
   /**
    * Invoked each time the custom element is disconnected from the document's DOM.
    */
