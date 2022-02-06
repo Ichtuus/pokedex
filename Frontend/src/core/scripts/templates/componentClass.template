@@ -1,7 +1,7 @@
 import html from './{{cmpName}}.html';
-import style from './{{cmpName}}.css';
-import {Component} from "@/utils";
-import {IWebComponent} from "@/interfaces";
+import style from './{{cmpName}}.scss';
+import { Component } from "../../core/decorator";
+import { IWebComponent } from "@/type/index";
 
 @Component({
     html: html,

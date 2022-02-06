@@ -1,6 +1,7 @@
 #! /usr/bin/env node
 const utils = require("./utils");
 const fs = require("fs-extra");
+const path = require("path");
 const { exec } = require("child_process");
 
 const myArgs = process.argv.slice(2);
@@ -23,19 +24,20 @@ if (nameComponent) {
   //////////
   // READ //
   //////////
-
+  console.log(path.resolve(__dirname));
   // read the class template
   let classTemplate = fs.readFileSync(
-    "./scripts/templates/componentClass.template",
+    `${__dirname}/templates/componentClass.template`,
     "utf8"
   );
+
   classTemplate = classTemplate
     .replace(regexNameComponent, kebabNameComponent)
     .replace(regexNameComponentPascalCase, pascalNameComponent);
 
   // read the html template
   let htmlTemplate = fs.readFileSync(
-    "./scripts/templates/componentHTML.template",
+    `${__dirname}/templates/componentHTML.template`,
     "utf8"
   );
   htmlTemplate = htmlTemplate.replace(regexNameComponent, kebabNameComponent);
@@ -46,13 +48,13 @@ if (nameComponent) {
 
   // ts file
   fs.writeFileSync(
-    `${componentsDir}/${kebabNameComponent}.component.ts`,
+    `${componentsDir}/${kebabNameComponent}.ts`,
     classTemplate,
     function (err) {
       if (err) return console.log(err);
     }
   );
-  console.log(`Created ${componentsDir}/${kebabNameComponent}.component.ts`);
+  console.log(`Created ${componentsDir}/${kebabNameComponent}.ts`);
 
   // html file
   fs.writeFileSync(
@@ -66,7 +68,7 @@ if (nameComponent) {
 
   // scss file
   fs.writeFileSync(
-    `${componentsDir}/${kebabNameComponent}.scss`,
+    `${componentsDir}/_${kebabNameComponent}.module.scss`,
     "",
     function (err) {
       if (err) return console.log(err);
@@ -104,17 +106,18 @@ if (nameComponent) {
   });
   console.log(`Imported ${kebabNameComponent} to index.ts`);
 
-  exec(`git add ${componentsDir}`, (error, stdout, stderr) => {
-    if (error) {
-      console.log(`error: ${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.log(`stderr: ${stderr}`);
-      return;
-    }
-    console.log(`Added ${kebabNameComponent} components to git`);
-  });
+  // GIT ADD
+  // exec(`git add ${componentsDir}`, (error, stdout, stderr) => {
+  //   if (error) {
+  //     console.log(`error: ${error.message}`);
+  //     return;
+  //   }
+  //   if (stderr) {
+  //     console.log(`stderr: ${stderr}`);
+  //     return;
+  //   }
+  //   console.log(`Added ${kebabNameComponent} components to git`);
+  // });
 } else {
   console.error("No component's name");
 }
