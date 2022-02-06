@@ -1,8 +1,15 @@
 const path = require("path");
+// const ESLintPlugin = require("eslint-webpack-plugin");
+
 const { NODE_ENV } = process.env;
 
 const config = {
   entry: "./src/index.ts",
+  // plugins: [
+  //   new ESLintPlugin({
+  //     extensions: [".ts", ".tsx", ".js"],
+  //   }),
+  // ],
 
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -11,7 +18,7 @@ const config = {
   },
 
   resolve: {
-    extensions: [".ts", ".js"],
+    extensions: [".ts", ".tsx", ".js"],
   },
 
   module: {
