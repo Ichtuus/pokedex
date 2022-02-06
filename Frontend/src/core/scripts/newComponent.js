@@ -94,7 +94,7 @@ if (nameComponent) {
   }
 
   // insert wrap function for dynamic import
-  const wrapDynamicImport = `customElements.define(\'${kebabNameComponent}\', wrap(()=>import(\'./components/${kebabNameComponent}/${kebabNameComponent}.component\'), \'${pascalNameComponent}\', observedAttributes));\n`;
+  const wrapDynamicImport = `customElements.define(\'${kebabNameComponent}\', wrap(()=>import(\'./components/${kebabNameComponent}/${kebabNameComponent}\'), \'${pascalNameComponent}\', observedAttributes));\n`;
   index =
     index.slice(0, lastWrapPositionEnd) +
     wrapDynamicImport +
