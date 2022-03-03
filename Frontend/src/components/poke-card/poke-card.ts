@@ -1,41 +1,40 @@
-import html from './poke-card.html';
-import style from './poke-card.scss';
+import html from "./poke-card.html";
+import style from "./_poke-card.module.scss";
 import { Component } from "../../core/decorator";
 import { IWebComponent } from "@/type/index";
 
 @Component({
-    html: html,
-    style: style,
-	  properties: []
+  html: html,
+  style: style,
+  properties: [],
 })
 export class PokeCard implements IWebComponent {
-
-	static observedAttributes() {
+  static observedAttributes() {
     // return an array containing the names of the attributes you want to observe
-	}
+  }
 
-  constructor(private $el: HTMLElement, private $host: Element) {}
+  // constructor(private $el: HTMLElement, private $host: Element) {}
 
   /**
    * Invoked each time the custom element is appended into a document-connected element.
    * This will happen each time the node is moved, and may happen before the element's contents have been fully parsed.
    */
   connectedCallback() {
-    console.log('poke-card connected');
+    console.log("poke-card connected");
   }
 
   /**
    * Invoked each time the custom element is disconnected from the document's DOM.
    */
   disconnectedCallback() {
-    console.log('poke-card disconnected');
+    console.log("poke-card disconnected");
   }
 
   /**
    * Invoked each time the custom element is moved to a new document.
    */
   adoptedCallback() {
-    console.log('poke-card moved');
+    console.log("poke-card moved");
   }
 
   /**
@@ -47,9 +46,10 @@ export class PokeCard implements IWebComponent {
    * @param newValue
    */
   attributeChangedCallback(name: string, oldValue: any, newValue: any) {
-     console.log(`${name} changed`);
+    console.log(
+      `${name} changed, oldValue: ${oldValue}, newValue: ${newValue}`
+    );
   }
-
 }
 
 // Ref.: https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements

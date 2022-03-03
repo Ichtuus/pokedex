@@ -9,6 +9,7 @@ import "./style/_global.module.css";
 import { wrap } from "./core/component";
 import observedAttributes from "./utils";
 
+customElements.define('test-test', wrap(()=>import('./components/test-test/test-test'), 'TestTest', observedAttributes));
 customElements.define(
   "poke-card",
   wrap(

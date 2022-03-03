@@ -1,5 +1,5 @@
-import html from './{{cmpName}}.html';
-import style from './_{{cmpName}}.module.scss';
+import html from './test-test.html';
+import style from './_test-test.module.scss';
 import { Component } from "../../core/decorator";
 import { IWebComponent } from "@/type/index";
 
@@ -8,7 +8,7 @@ import { IWebComponent } from "@/type/index";
     style: style,
 	  properties: []
 })
-export class {{cmpNamePascalCase}} implements IWebComponent {
+export class TestTest implements IWebComponent {
 
 	static observedAttributes() {
     // return an array containing the names of the attributes you want to observe
@@ -21,21 +21,21 @@ export class {{cmpNamePascalCase}} implements IWebComponent {
    * This will happen each time the node is moved, and may happen before the element's contents have been fully parsed.
    */
   connectedCallback() {
-    console.log('{{cmpName}} connected');
+    console.log('test-test connected');
   }
 
   /**
    * Invoked each time the custom element is disconnected from the document's DOM.
    */
   disconnectedCallback() {
-    console.log('{{cmpName}} disconnected');
+    console.log('test-test disconnected');
   }
 
   /**
    * Invoked each time the custom element is moved to a new document.
    */
   adoptedCallback() {
-    console.log('{{cmpName}} moved');
+    console.log('test-test moved');
   }
 
   /**

@@ -28,6 +28,7 @@ export const wrap = (
     static originalObservedAttributes: any;
 
     static get observedAttributes(): Array<string> {
+      console.log("in comp struct", observedAttributes);
       return observedAttributes;
     }
 

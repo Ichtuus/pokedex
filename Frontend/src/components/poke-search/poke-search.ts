@@ -17,35 +17,30 @@ import { hasFrBrowser, detectLanguage } from "../../utils/iso-language";
   properties: ["prop"],
 })
 export class PokeSearch implements IWebComponent {
-  get prop() {
-    console.log("prop read");
-    return "";
+  static observedAttributes() {
+    // return an array containing the names of the attributes you want to observe
   }
 
-  set prop(value: string) {
-    console.log("prop written, new value", value);
+  constructor(private $el: HTMLElement) {
+    // this._items = [];
   }
+  // get _items() {
+  //   console.log("prop read");
+  //   return this._items;
+  // }
 
-  constructor(private $el: HTMLElement) {}
+  // set _items(value: any) {
+  //   console.log("prop written, new value", value);
+  //   this._items = value;
+  // }
 
   /**
    * Invoked each time the custom element is appended into a document-connected element.
    * This will happen each time the node is moved, and may happen before the element's contents have been fully parsed.
    */
   connectedCallback() {
-    console.log("hello-world2 connected ");
-    // this.$el.querySelector("#test")?.addEventListener("click", () => {
-    //   console.log("call api");
-    //   pokemonApi.getPokemon("https://pokeapi.co/api/v2/pokemon?limit=1118&offset=20");
-    // });
-
-    // let search = "";
+    console.log("poke-search connected ");
     this.searchPokemon();
-    // this.$el.querySelector(".search-field")?.addEventListener("input", () => {
-    //   search = (<HTMLInputElement>text).value;
-    //   console.log(search);
-    //   this.searchPokemon(search);
-    // });
   }
 
   searchPokemon() {
@@ -118,14 +113,14 @@ export class PokeSearch implements IWebComponent {
    * Invoked each time the custom element is disconnected from the document's DOM.
    */
   disconnectedCallback() {
-    console.log("hello-world disconnected");
+    console.log("poke-search disconnected");
   }
 
   /**
    * Invoked each time the custom element is moved to a new document.
    */
   adoptedCallback() {
-    console.log("hello-world moved");
+    console.log("poke-search moved");
   }
 
   /**
